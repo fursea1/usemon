@@ -1,0 +1,29 @@
+<module>
+
+	<!-- Inherit the core Web Toolkit stuff.                  -->
+	<inherits name='com.google.gwt.user.User' />
+
+	<!-- Jarle, where did you find this? -->
+	<!-- This breaks the build :-) -->
+	<inherits name="org.gwtwidgets.WidgetLibrary"/>
+	<inherits name='com.gwtext.GwtExt'/>
+	<inherits name='com.googlecode.gwtx.Java'/>
+	
+	<!-- Specify the app entry point class.                   -->
+	<entry-point class='org.usemon.gui.client.UsemonApp' />
+
+	<stylesheet src='UsemonApp.css' />
+
+	<servlet path='/plotService'
+		class='org.usemon.gui.server.service.PlotServiceImpl' />
+
+	<servlet path='/displayChart'
+		class='org.jfree.chart.servlet.DisplayChart' />
+	
+	<servlet path='/wizardQuery'
+		class='org.usemon.gui.server.service.WizardQueryServiceImpl' />
+		
+	<servlet path='/plotServlet' class='org.usemon.gui.server.servlet.PlotServlet' />
+	
+	<servlet path='/relationshipServlet' class='org.usemon.gui.server.servlet.RelationshipServlet' />
+</module>
