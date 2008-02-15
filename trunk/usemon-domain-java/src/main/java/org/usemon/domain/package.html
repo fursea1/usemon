@@ -1,0 +1,17 @@
+<html>
+<body>
+<p>Follow these steps to add another service with associated
+methods:
+<ol>
+	<li>Add the new service in <code>UsemonServiceProvider.java</code>
+	<li>Create the new service interface
+	<li>Add methods to your new service
+	<li>Add instantiation of the new service to <code>UsemonServiceLocator</code>
+	<li>Create an implemenation of the new service in the service layer. Annotate all injection points
+	with <code>@Inject</code>
+	<li>Add the creation of the new service to <code>UsemonServiceProviderImpl</code>
+	<li>Add bindings required into DefaultModuleBinding 
+</ol>
+</p>
+</body>
+</html>
