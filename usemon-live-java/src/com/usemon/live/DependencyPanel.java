@@ -1,4 +1,4 @@
-package com.usemon.realtime;
+package com.usemon.live;
 
 import hypergraph.graph.GraphSystemImpl;
 import hypergraph.graphApi.Edge;
@@ -8,7 +8,6 @@ import hypergraph.graphApi.GraphException;
 import hypergraph.graphApi.GraphSystem;
 import hypergraph.graphApi.GraphSystemFactory;
 import hypergraph.graphApi.Group;
-import hypergraph.graphApi.Node;
 import hypergraph.visualnet.ArrowLineRenderer;
 import hypergraph.visualnet.GenericMDSLayout;
 import hypergraph.visualnet.GraphPanel;
@@ -110,7 +109,7 @@ public class DependencyPanel extends GraphPanel implements Runnable {
 
 			repaint();			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(2500);
 			} catch(InterruptedException e) {
 				break;
 			}
