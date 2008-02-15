@@ -1,4 +1,4 @@
-package com.usemon.realtime;
+package com.usemon.live;
 
 import hypergraph.graphApi.GraphException;
 
@@ -17,7 +17,8 @@ public class UsemonLive {
 
 	private UsemonLive() throws ClassNotFoundException, SQLException, GraphException {
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/usemon?autoReconnect=true", "usemonmonitor", "usemonmonitor");
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/usemon?autoReconnect=true",
+				"usemonmonitor", "usemonmonitor");
 		
 		panel = new DependencyPanel();
         JFrame f = new JFrame("U s e m o n | L i v e");
@@ -44,7 +45,7 @@ public class UsemonLive {
 			} else {
 				System.out.println("No new invocation(s) found.");
 				try {
-					Thread.sleep(1000*5);
+					Thread.sleep(1000*15);
 				} catch(InterruptedException e) {
 					break; // Allow us to close the connection and exit cleanly
 				}
