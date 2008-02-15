@@ -1,0 +1,1 @@
+@java -cp "%~dp0\src\main\java;%~dp0\target\classes;C:/java/gwt-windows-1.4.60/gwt-user.jar;C:/java/gwt-windows-1.4.60/gwt-dev-windows.jar;C:\java\.m2\repository\net\sf\gwt-widget\gwt-widgets\0.1.5\gwt-widgets-0.1.5.jar;..\usemon-service-java\target\" com.google.gwt.dev.GWTShell -out "%~dp0\www" %* org.usemon.gui.UsemonApp/UsemonApp.html

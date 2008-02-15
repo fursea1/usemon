@@ -1,0 +1,98 @@
+#
+@CHARSET "ISO-8859-1";
+
+
+.table-wizardResult-header {
+	font-size: 12px;
+	font-weight: bold;
+	}
+	
+.progressbar-text {
+	font-weight: bold;
+}
+
+.progressbar-remaining {
+	font-size: 12px;
+	font-style: italic;
+}
+
+.progressbar-outer {
+	border: 1px solid black;
+}
+
+.progressbar-inner {
+	border: 1px solid black;
+	margin: 1px;
+}
+
+.progressbar-bar {
+	width: 45px;
+	height: 15px;
+	margin: 1px;
+}
+
+.progressbar-fullbar {
+	background: blue;
+}
+
+.progressbar-blankbar {
+	background: #eee;
+}
+
+.gwt-DialogBox {
+	border: 2px solid #87B3FF;
+	background-color: #E1E4F2;
+}
+
+.gwt-DialogBox.Caption {
+	background-color: #C3D9FF;
+	border: 2px outset;
+	padding: 3px;
+	margin: 2px;
+	font-weight: bold;
+	cursor: default;
+}
+
+.gwt-TabPanel {
+	margin-top: 4px;
+}
+
+.gwt-TabPanelBottom {
+	background-color: #E8EEF7;
+	height: 100%;
+}
+
+.gwt-TabBar {
+	padding-top: 2px;
+	border-bottom: 4px solid #87B3FF;
+	background-color: #fff;
+}
+
+.gwt-TabBar .gwt-TabBarFirst {
+	
+}
+
+.gwt-TabBar .gwt-TabBarRest {
+	
+}
+
+.gwt-TabBar .gwt-TabBarItem {
+	padding: 4px;
+	cursor: pointer;
+	cursor: hand;
+	background-color: #e8eef7;
+	border-bottom: 2px solid white;
+	margin-right: 2px;
+}
+
+.gwt-TabBar .gwt-TabBarItem-selected {
+	padding: 4px;
+	font-weight: bold;
+	cursor: default;
+	background-color: #87b3ff;
+	border-bottom: 2px solid #87b3ff;
+	margin-right: 2px;
+}
+
+.graphPanel {
+}

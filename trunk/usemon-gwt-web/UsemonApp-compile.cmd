@@ -1,0 +1,1 @@
+@java -cp "%~dp0\src\main\java;C:/java/gwt-windows-1.4.60/gwt-user.jar;C:/java/gwt-windows-1.4.60/gwt-dev-windows.jar" com.google.gwt.dev.GWTCompiler -out "%~dp0\target\usemon-gwt-web-0.746-SNAPSHOT" %* org.usemon.gui.UsemonApp
