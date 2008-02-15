@@ -1,0 +1,30 @@
+DROP TABLE if exists method_measurement_fact;
+DROP TABLE if exists invocation_fact;
+DROP TABLE if exists heap_fact;
+DROP TABLE if exists channel;
+DROP TABLE if exists class;
+drop table if exists src_class;
+drop table if exists target_class;
+drop view if exists target_class;
+drop view if exists src_class;
+
+DROP TABLE if exists d_date;
+drop table if exists start_date;
+drop view if exists start_date;
+drop table if exists end_date;
+drop view if exists end_date;
+
+DROP TABLE if exists location;
+DROP TABLE if exists principal;
+DROP TABLE if exists d_time;
+DROP TABLE if exists package;
+DROP TABLE if exists method;
+DROP TABLE if exists instance;
+drop table if exists src_instance;
+drop view if exists src_instance;
+drop table if exists target_instance;
+drop view if exists target_instance;
+drop view if exists src_method;
+drop view if exists target_method;
+drop view if exists src_package;
+drop view if exists target_package;
