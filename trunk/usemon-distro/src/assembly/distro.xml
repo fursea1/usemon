@@ -1,0 +1,46 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>../usemon-agent-java/target</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*-with-dependencies.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../usemon-agent-preinstrument-java/target</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*-with-dependencies.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../usemon-collector-java/target</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*${project.version}-jar-with-dependencies.jar</include>
+			</includes>
+		</fileSet>
+		<!-- Do not include the web app, the distro gets too big 
+		<fileSet>
+			<directory>../usemon-gwt-web/target</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*${project.version}.war</include>
+			</includes>
+		</fileSet>
+		-->
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
