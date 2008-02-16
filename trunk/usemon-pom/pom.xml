@@ -38,7 +38,9 @@
 		<module>../usemon-agent-it-test-java</module>
 		<module>../usemon-collector-java</module>
 		<module>../usemon-domain-java</module>
+		<!--
 		<module>../usemon-gwt-web</module>
+		-->
 		<!--
 		<module>../usemon-processor-java</module>
 		-->
@@ -110,8 +112,13 @@
 			<dependency>
 				<groupId>jfree</groupId>
 				<artifactId>jcommon</artifactId>
-				<version>1.0.10</version>
+				<version>1.0.12</version>
 			</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.9</version>
+		</dependency>
 			<dependency>
 				<groupId>com.google.code.guice</groupId>
 				<artifactId>guice</artifactId>
