@@ -9,9 +9,9 @@ Usemon is built using Maven 2. We have several 3rd. party dependencies which mus
 When compiling for the first time, the following artifacts will appear as unresolved:
 
   || Component || Download from ||
-  || jcommons || http://sourceforge.net/project/showfiles.php?group_id=15494 ||
-  || jfreechart || ||
-  || gwt-ext || ||
+  || jcommons || http://sourceforge.net/projects/jfreechart/ ||
+  || jfreechart || http://sourceforge.net/projects/jfreechart/ ||
+  || gwt-ext || http://code.google.com/p/gwt-ext/ ||
 
 
 == How to install an artifact into your local maven repository ==
