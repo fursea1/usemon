@@ -10,6 +10,8 @@ When compiling for the first time, the following artifacts will appear as unreso
 
   || Component || Download from ||
   || jcommons || http://sourceforge.net/project/showfiles.php?group_id=15494 ||
+  || jfreechart || ||
+  || gwt-ext || ||
 
 
 == How to install an artifact into your local maven repository ==
