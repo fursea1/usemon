@@ -6,6 +6,6 @@
  * We needed something so light weight that it could be run in our production system 24/7 365 days a year
  * We needed a system that could discover our runtime dependencies
   * Across Java method invocations and asynchronous JMS Queues
- * We only need to monitor the key traffic points in our system, not every Class in our JVMs
+ * We only need to monitor the key traffic points in our system, not all the Classes in our JVMs
   * Public methods on EJBs, Servlets, MDBs and custom defined POJOs
   * And also classes implementing the !SqlStatement, !MessageSender and !TopicSender interfaces
