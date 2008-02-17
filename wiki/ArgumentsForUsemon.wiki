@@ -8,4 +8,4 @@ These are the reasons for why it was necessary to create Usemon
   * Across Java method invocations and asynchronous JMS Queues
  * We only need to monitor the key traffic points in our system
   * Public methods on EJBs, Servlets, MDBs and custom defined POJOs
-  * And also classes implementing the SqlStatement, MessageSender and TopicSender interfaces
+  * And also classes implementing the !SqlStatement, !MessageSender and !TopicSender interfaces
