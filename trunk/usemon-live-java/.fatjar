@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Fri Feb 15 09:20:56 CET 2008
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=C\:\\Documents and Settings\\Administrator\\Desktop\\usemon-live.jar
+manifest.mergeall=true
+manifest.mainclass=com.usemon.realtime.UsemonLive
+manifest.file=<createnew>
+jarname.isextern=true
+onejar.expand=
+excludes=<jar|googleapi.jar>;<jar|JSPWiki.jar>;<jar|McKessonApsWikiPlugins.jar>;<jar|tinyTIM-min.jar>;<jar|xmlrpc.jar>
+includes=

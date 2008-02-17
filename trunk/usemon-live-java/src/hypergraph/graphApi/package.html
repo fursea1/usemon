@@ -1,0 +1,30 @@
+<body>
+<p>
+Simple API to handle graphs. Even though this package is part of the 
+hypergraph project, the classes can also be used in other contexts to handle graphs.
+</p>
+<p>
+All parts of a graph and even the graph itself are derived from the interface <code>Element</code>.
+This interface provides three properties, a name of the element, a group and a type identifier.
+The name of an element is usually used to identify or label an element
+and are guaranted to be unique within a <code>GraphSystem</code>.
+It can never be changed and has to be set during instantiation.
+The group property of the elements is used to group sets of elements for example 
+to reflect clustering of the graph or to attach default attributes. 
+The type identifier gives an application the possibility to identify whether an element is
+an edge, node or whatever. Since there might be more than one class that represents an edge or node, 
+the reflection functionality of java is not useful to identify the type.
+</p>
+<p>
+It is often important to assign certain properties or attributes to an element of a graph, for example 
+a colour that is used in visualizations or attributes in graph theory. One possibility would be to 
+implement the interfaces in such a way that these attributes are stored directly at the node or edge.
+This has the drawback, that default values are difficult to handle. The approach in this package has the 
+advantage that you can attach attributes to groups of elements or the whole graph so that it is for example 
+very easy to colour all nodes at a time. For details about the attributes, please see the description
+of <code>AttributeManager</code>.
+</p>
+
+
+
+</body>

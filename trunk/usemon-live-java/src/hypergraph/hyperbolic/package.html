@@ -1,0 +1,51 @@
+<body>
+<p>
+Provides classes and interfaces to visualize the hyperbolic space.
+Actually the class structure is set up in such a way, 
+that all kind of non-euclidian geometry can be visualized.
+It uses the Swing variant of the MVC paradigma to separate the mathematical model 
+of the geometry from the vizualisation and user interaction. 
+</p>
+
+<h3> Modelling the geometry</h3>
+<p>
+The geometry is encoded in implementations of the interface <code>Model</code>.
+The only implementation here is the class <code>PoincareModel</code> which uses the well known
+Poincare model to describe the two dimensional hyperbolic plane. 
+The <code>Model</code> is designed to be independent of the dimension, 
+it would be interesting to have also a three dimensional model at hand. 
+Of course the visualisation would change significantly for a three dimensional geometry, 
+but hopefully the design of the classes is flexible enough to handle this.
+To keep <code>Model</code> as flexibel as possible, 
+the interfaces <code>ModelPoint</code> and <code>ModelVector</code> provide 
+the possibility to store points and vectors in a way depending on the model.
+The implementation of the Poincare model uses the class <code>Complex</code> as an 
+implementation of <code>ModelPoint</code>. 
+</p>
+<p>
+Depending on your background in non-euclidian geometry, 
+it might be a surprise to you that a vector has a different interface than a point. 
+The reason is that a vector as you know it, i.e. something like (1;0), pointing to the 
+right in a usual coordinate system, has the same properties 
+at any point in the coordinate system. You can move the vector around, it will always 
+point to the right and have the length 1 - in euclidian geometry ! 
+In non-euclidian geometry it is important at which position this vector (1;0) is.
+For example in the Poincare model, it always points to the right, but the length of
+the vector depends on the position - the more you get to the border of the model, 
+the longer the vector becomes in the geometry. That's why any vector has a base point, 
+this is the point where the vector "starts". However, in most cases you don't have to bother about this.
+</p>
+<p>
+Another difference between euclidian and non-euclidian geometry are the different 
+translations. You are used to be able to shift things around and rotate them and the
+mathematics behind this is fairly simple and standard. Translations and rotations
+in an non-euclidian model are represented by implementations of the interface 
+<code>Isometry</code>. There is no public implementation of this interface, 
+it is implemented as a inner class of <code>PoincareModel</code>.
+Any model has to implement a certain set of methods to create isometries.
+For example you can get a rotation around a fixed point via 
+<code>Model.getRotation(ModelPoint,double)</code>. Of course you can apply
+isometries to points and vectors, i.e. move them around.
+</p>
+<h3>Rendering the model</h3>
+</body>

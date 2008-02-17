@@ -81,7 +81,7 @@ public class DependencyPanel extends GraphPanel implements Runnable {
 			}
 		}
 	}
-
+	
 	private InstanceNode findNode(String name) throws GraphException {
 		InstanceNode n = (InstanceNode) getGraph().getElement(name);
 		if(n==null) {
@@ -106,7 +106,6 @@ public class DependencyPanel extends GraphPanel implements Runnable {
 				System.out.println("Expired: "+node.getLabel());
 				getGraph().removeElement(node);
 			}
-
 			repaint();			
 			try {
 				Thread.sleep(2500);
