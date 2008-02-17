@@ -4,4 +4,5 @@ These are the reasons for why it was necessary to create Usemon
  * We could not afford to create any compile or build time dependencies to the monitoring system
  ** Too expensive to rebuild/redeploy old applications
  * We needed something so light weight that it could be run in our production system 24/7 365 days a year
- * We needed a system that could discover our runtime dependencies. Across Java method invocations and asynchronous JMS Queues
+ * We needed a system that could discover our runtime dependencies
+ ** Across Java method invocations and asynchronous JMS Queues
