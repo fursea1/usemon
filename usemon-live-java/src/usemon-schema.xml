@@ -1,0 +1,128 @@
+<Schema name="usemon">
+	<Dimension type="StandardDimension" name="Location">
+		<Hierarchy name="Location" hasAll="true" primaryKey="id" primaryKeyTable="location">
+			<Table name="location">
+			</Table>
+			<Level name="Platform" table="location" column="platform" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+			<Level name="Cluster" table="location" column="cluster" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+			<Level name="Server" table="location" column="server" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Principal">
+		<Hierarchy name="Principal" hasAll="true" primaryKey="id" primaryKeyTable="principal">
+			<Table name="principal">
+			</Table>
+			<Level name="Principal" table="principal" column="principal" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Package">
+		<Hierarchy name="Package" hasAll="true" primaryKey="id" primaryKeyTable="package">
+			<Table name="package">
+			</Table>
+			<Level name="Package" table="package" column="package" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Class">
+		<Hierarchy name="Class" hasAll="true" primaryKey="id" primaryKeyTable="class">
+			<Table name="class">
+			</Table>
+			<Level name="Class" table="class" column="class" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Method">
+		<Hierarchy name="Method" hasAll="true" primaryKey="id" primaryKeyTable="method">
+			<Table name="method">
+			</Table>
+			<Level name="Method" table="method" column="method" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Date">
+		<Hierarchy name="Date" hasAll="true" primaryKey="id" primaryKeyTable="d_date">
+			<Table name="d_date">
+			</Table>
+			<Level name="Year" table="d_date" column="year_v" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+			<Level name="Month" table="d_date" column="month_v" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+			<Level name="Day" table="d_date" column="day_v" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Dimension type="StandardDimension" name="Time">
+		<Hierarchy name="Time" hasAll="true" primaryKey="id" primaryKeyTable="d_time">
+			<Table name="d_time">
+			</Table>
+			<Level name="hh" table="d_time" column="hh" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+			<Level name="mm" table="d_time" column="mm" type="Numeric" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+			</Level>
+		</Hierarchy>
+	</Dimension>
+	<Cube name="Usemon" cache="true" enabled="true">
+		<Table name="method_measurement_fact">
+		</Table>
+		<DimensionUsage source="Location" name="Location" foreignKey="location_id">
+		</DimensionUsage>
+		<DimensionUsage source="Package" name="Package" foreignKey="package_id">
+		</DimensionUsage>
+		<DimensionUsage source="Class" name="Class" foreignKey="class_id">
+		</DimensionUsage>
+		<DimensionUsage source="Date" name="Date" foreignKey="d_date_id">
+		</DimensionUsage>
+		<DimensionUsage source="Time" name="Time" foreignKey="d_time_id">
+		</DimensionUsage>
+		<DimensionUsage source="Principal" name="Principal" foreignKey="principal_id">
+		</DimensionUsage>
+		<DimensionUsage source="Method" name="Method" foreignKey="method_id">
+		</DimensionUsage>
+		<Measure name="Average Response Time" column="avg_response_time" datatype="Numeric" formatString="0.00 ms" aggregator="avg" caption="Average Response Time" visible="true">
+		</Measure>
+		<Measure name="Invocations" column="invocation_count" datatype="Numeric" formatString="0" aggregator="sum" caption="Invocations" visible="true">
+		</Measure>
+		<Measure name="Max Response Time" column="max_response_time" datatype="Numeric" formatString="0.00 ms" aggregator="max" caption="Max Response Time" visible="true">
+		</Measure>
+		<Measure name="Checked Exceptions" column="checked_exceptions" datatype="Numeric" formatString="0" aggregator="sum" caption="Checked Exceptions" visible="true">
+		</Measure>
+		<Measure name="Unchecked Exceptions" column="unchecked_exceptions" datatype="Numeric" formatString="0" aggregator="sum" caption="Unchecked Exceptions" visible="true">
+		</Measure>
+		<CalculatedMember name="Exceptional Exits" formatString="0.00%" caption="" formula="(([Checked Exceptions] + [Unchecked Exceptions]) / [Invocations])" dimension="Measures" visible="true">
+		</CalculatedMember>
+		<CalculatedMember name="CPU Time" formatString="0.00h" caption="" formula="(([Invocations] * [Average Response Time]) / 1000.0/60.0/60.0)" dimension="Measures" visible="true">
+		</CalculatedMember>
+	</Cube>
+	<Cube name="Heap" cache="true" enabled="true">
+		<Table name="heap_fact" schema="" alias="">
+		</Table>
+		<Dimension type="StandardDimension" foreignKey="d_date_id" name="Date">
+			<Hierarchy name="Date" hasAll="true" allMemberName="" allMemberCaption="" allLevelName="" primaryKey="id" primaryKeyTable="d_date" defaultMember="" memberReaderClass="">
+				<Table name="d_date" schema="" alias="">
+				</Table>
+			</Hierarchy>
+		</Dimension>
+		<Dimension type="StandardDimension" foreignKey="d_time_id" name="Time">
+			<Hierarchy name="Time" hasAll="true" primaryKey="id" primaryKeyTable="d_time" caption="">
+				<Table name="d_time" schema="" alias="">
+				</Table>
+			</Hierarchy>
+		</Dimension>
+		<Dimension type="StandardDimension" foreignKey="location_id" name="Location">
+			<Hierarchy name="Location" hasAll="true" allMemberName="" allMemberCaption="" allLevelName="" primaryKey="id" primaryKeyTable="location" defaultMember="" memberReaderClass="">
+				<Table name="location" schema="" alias="">
+				</Table>
+			</Hierarchy>
+		</Dimension>
+		<Measure name="Free" column="free" datatype="Integer" formatString="" aggregator="sum" formatter="" visible="true">
+		</Measure>
+		<Measure name="Total" column="total" datatype="Integer" formatString="" aggregator="sum" visible="true">
+		</Measure>
+		<Measure name="Max" column="max_mem" datatype="Integer" formatString="" aggregator="sum" formatter="" visible="true">
+		</Measure>
+	</Cube>
+</Schema>
