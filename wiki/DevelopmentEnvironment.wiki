@@ -1,11 +1,13 @@
 #summary How to setup the Usemon development environment
 
 = Introduction =
+This document describes in detail how to check out and get Usemon to build on your local development machine.
+
+= Prerequisits =
 The developers of Usemon uses Eclipse as their IDE, and we recommend others that plan to develop or build Usemon to do the same. The reason for this is that all the documentation is written with this as base reference.
 
 We are currently using Eclipse version 3.3.1.1
 
-= Prerequisits =
 == Required Eclipse plugins ==
  * M2Eclipse: http://m2eclipse.codehaus.org/update/
  * Subclipse: http://subclipse.tigris.org/update_1.2.x/
