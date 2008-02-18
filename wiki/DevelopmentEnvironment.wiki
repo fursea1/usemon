@@ -22,10 +22,11 @@ The safest way to do this is to do it by following this list of tasks:
  * Check out the rest of the modules (Do *not* use checkout as Maven project)
  * Click {{Enable Dependency Management}} and then {{{Updated Source Folders}}} from the Maven menu on all projects
 
-When you've successfully completed the above steps you'll have one unresolved dependency in the {{{usemon-gwt-web}}} module. You need to download and install the gw-text version 0.9.4 library manually to your local maven2 repository.
+When you've successfully completed the above steps you'll have one unresolved dependency in the {{{usemon-gwt-web}}} module. You must download and install gw-ext version 0.9.4 to your local maven2 repository.
 
 ||gwt-ext||http://code.google.com/p/gwt-ext/||
 
+Install using this command
 {{{
 mvn install:install-file -DgroupId=com.google.code.gwtext -DartifactId=gwtext \
 -Dversion=0.9.4 -Dpackaging=jar -DgeneratePom=true Dfile=gwtext.jar
