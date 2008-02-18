@@ -33,5 +33,5 @@ Recommended Eclipse version: 3.3.1.1 (That's what we use, and used as reference 
  * M2Eclipse: http://m2eclipse.codehaus.org/update/
  * Subclipse: http://subclipse.tigris.org/update_1.2.x/
 
-== Maven Super POM ==
-The Maven super-pom is located in the {{{usemon-pom}}} project. Before the rest of the projects can compile or even be given the Maven nature the {{{usemon-pom}}} project must be installed into the local repository. The quickest way to do this is to comment out the modules section of the {{{usemon-pom/pom.xml}}} file and then choose {{{Run As -> Maven build...}}} and enter "clean install" as goal and then execute. Remember to uncomment the modules in the pom.xml after successfully executing this task.
+== Installing the Maven Super POM into the local repository ==
+The Maven super-pom is located in the {{{usemon-pom}}} project. Before the rest of the projects can compile or even be given the Maven nature the {{{usemon-pom}}} project must be installed into the local repository. The quickest way to do this is to comment out the modules section of the {{{usemon-pom/pom.xml}}} file and then choose {{{Run As -> Maven build...}}} and enter "clean install" as goal and then execute. Remember to uncomment the modules in the pom.xml afterwards.
