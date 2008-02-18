@@ -22,6 +22,7 @@ The safest way to do this is to do it by following this list of tasks:
  * Check out the rest of the modules (Do *not* use checkout as Maven project)
  * Click {{Enable Dependency Management}} and then {{{Updated Source Folders}}} from the Maven menu on all projects
 
+== Resolving dependencies ==
 When you've successfully completed the above steps you'll have one unresolved dependency in the {{{usemon-gwt-web}}} module. You must download and install gw-ext version 0.9.4 to your local maven2 repository.
 
 ||gwt-ext||http://code.google.com/p/gwt-ext/||
