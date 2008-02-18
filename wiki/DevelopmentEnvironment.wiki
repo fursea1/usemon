@@ -13,11 +13,11 @@ We are currently using Eclipse version 3.3.1.1
 = Checking out from SVN =
 
 The safest way to do this is to do it by following this list of tasks:
- * Check out {{{usemon-pom}}}
+ * Check out {{{usemon-pom}}} (Do *not* use checkout as Maven project)
   * Comment out the module tags inside the modules section from the {{{pom.xml}}}
   * Execute {{{Run As -> Maven Build...}}}, Goal: "clean install"
   * Uncomment the modules again
- * Check out the rest of the modules
+ * Check out the rest of the modules (Do *not* use checkout as Maven project)
 
 
 == Detailed instructions : Installing the Maven Super POM into the local repository ==
