@@ -27,8 +27,8 @@ When you've successfully completed the above steps you'll have one unresolved de
 ||gwt-ext||http://code.google.com/p/gwt-ext/||
 
 {{{
-mvn install:install-file -DgroupId=com.google.code.gwtext -DartifactId=gwtext -Dversion=0
-.9.4 -Dpackaging=jar -DgeneratePom=true Dfile=gwtext.jar
+mvn install:install-file -DgroupId=com.google.code.gwtext -DartifactId=gwtext \
+-Dversion=0.9.4 -Dpackaging=jar -DgeneratePom=true Dfile=gwtext.jar
 }}}
 
 == Detailed instructions : Installing the Maven Super POM into the local repository ==
