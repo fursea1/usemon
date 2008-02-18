@@ -5,8 +5,8 @@ The developers of Usemon uses Eclipse as their IDE, and we recommend others that
 
 We are currently using Eclipse version 3.3.1.1
 
-
-= Required Eclipse plugins =
+= Prerequisits =
+== Required Eclipse plugins ==
  * M2Eclipse: http://m2eclipse.codehaus.org/update/
  * Subclipse: http://subclipse.tigris.org/update_1.2.x/
 
