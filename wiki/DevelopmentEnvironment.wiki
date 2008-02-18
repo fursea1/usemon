@@ -20,6 +20,7 @@ The safest way to do this is to do it by following this list of tasks:
   * Execute {{{Run As -> Maven Build...}}}, Goal: "clean install"
   * Uncomment the modules again
  * Check out the rest of the modules (Do *not* use checkout as Maven project)
+ * {{{Updated source folders}}} from the Maven menu on all projects
 
 
 == Detailed instructions : Installing the Maven Super POM into the local repository ==
