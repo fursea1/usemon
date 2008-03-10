@@ -5,7 +5,6 @@ import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.usemon.live.applet.edges.InvocationEdge;
 import org.usemon.live.applet.nodes.BeanNode;

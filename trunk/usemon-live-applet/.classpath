@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/java/processing-0135-expert/lib/core.jar"/>
-	<classpathentry kind="lib" path="C:/java/processing-0135-expert/libraries/animation/library/animation.jar"/>
-	<classpathentry kind="lib" path="C:/java/processing-0135-expert/libraries/physics/library/physics.jar" sourcepath="C:/java/processing-0135-expert/libraries/physics/library/physics.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.5-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.12.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.9.jar"/>
+	<classpathentry kind="lib" path="lib/animation.jar"/>
+	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/physics.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
