@@ -141,11 +141,11 @@ public class Graph {
 		}
 	}
 
-	protected float screenToWorldX(int screenX) {
+	public float screenToWorldX(int screenX) {
 		return (screenX-(ctx.width/2))/centroid.z()+centroid.x();
 	}
 
-	protected float screenToWorldY(int screenY) {
+	public float screenToWorldY(int screenY) {
 		return (screenY-(ctx.height/2))/centroid.z()+centroid.y();
 	}
 
