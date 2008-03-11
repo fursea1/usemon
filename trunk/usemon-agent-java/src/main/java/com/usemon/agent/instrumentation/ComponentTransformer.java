@@ -1,5 +1,7 @@
 package com.usemon.agent.instrumentation;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.usemon.usageinfo.Info;
@@ -60,8 +62,8 @@ public class ComponentTransformer {
 	 * ¤ If the signature of the send method is "javax.jms.Queue, javax.jms.Message" or "javax.jms.Queue, javax.jms.Message, int"
 	 *   it will do a simple push callback with the Queue.toString() as the name.
 	 * ¤ If the signature of the send method is only "javax.jms.Message" or "javax.jms.Message, int" it will search for
-	 *   a field in the class of the type javax.jms.Queue and if this is not null use it will do another toString() to
-	 *   get the queue name. If this field is null it will call the queue "unknown".
+	 *   a field in the class of the type javax.jms.Queue and if this is not null use it to do another toString() to
+	 *   get the queue name. If this field is null it will name the queue "unknown".
 	 * @throws CannotCompileException 
 	 * @throws NotFoundException 
 	 * @throws IOException 
@@ -73,13 +75,15 @@ public class ComponentTransformer {
 		for(int n=0;n<methods.length;n++) {
 			CtMethod method = methods[n];
 			MethodInfo methodInfo = method.getMethodInfo();
-			// Skip all private, native or abstract methods
+			// Skip all native and abstract methods
 			if(methodInfo.isMethod() && !Modifier.isNative(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers())) {
 				if("send".equals(method.getName())) {
+					String queueName = null;
 					if("(Ljavax/jms/Queue;Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
-						method.insertBefore(Constants.CALLBACK_PUSH+"("+Info.COMPONENT_QUEUESENDER+", getClass().getName(), $1.toString());");
-						method.insertAfter(Constants.CALLBACK_POP+"();");					
+						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+						queueName = "\"queue://\"+$1.toString()";
 					} else if("(Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
+						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
 						String queueFieldName = null;
 						CtField[] fields = javaClass.getDeclaredFields();
 						for(int t=0;t<fields.length;t++) {
@@ -90,15 +94,35 @@ public class ComponentTransformer {
 							}
 						}
 						if(queueFieldName!=null) {
-							method.insertBefore(Constants.CALLBACK_PUSH+"("+Info.COMPONENT_QUEUESENDER+", getClass().getName(), "+queueFieldName+".toString());");
+							queueName = "\"queue://\"+"+queueFieldName+".toString()";
 						} else {
-							method.insertBefore(Constants.CALLBACK_PUSH+"("+Info.COMPONENT_QUEUESENDER+", getClass().getName(), \"queue://unknown.queue\");");
+							queueName = "\"queue://unknown.queue\"";
 						}
-						method.insertAfter(Constants.CALLBACK_POP+"();");
+					}
+
+					if(queueName!=null) {
+						StringBuffer before = new StringBuffer().append("{");
+						StringBuffer after = new StringBuffer().append("{");
+						before.append(Constants.CALLBACK_PUSH+"("+Info.COMPONENT_QUEUESENDER+", getClass().getName(), "+queueName+");");
+						before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+						after.append(Constants.CALLBACK_INVOCATION);
+						after.append("(");
+						after.append(Info.COMPONENT_QUEUESENDER+", ");
+						after.append("getClass().getName() ,");
+						after.append(queueName+", ");
+						after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+						after.append("null, ");
+						after.append("null);");
+						after.append(Constants.CALLBACK_POP+"();");
+						method.insertBefore(before.append("}").toString());
+						method.insertAfter(after.append("}").toString());
 					}
 				}
 			}
 		}
+//		DataOutputStream dos = new DataOutputStream(new FileOutputStream("c:\\"+javaClass.getSimpleName()+".class"));
+//		javaClass.toBytecode(dos);
+//		dos.close();
 		return javaClass.toBytecode();
 	}
 	
@@ -129,7 +153,7 @@ public class ComponentTransformer {
 		for(int n=0;n<methods.length;n++) {
 			CtMethod method = methods[n];
 			MethodInfo methodInfo = method.getMethodInfo();
-			// Skip all private, native or abstract methods
+			// Skip all native or abstract methods
 			if(methodInfo.isMethod() && !Modifier.isNative(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers())) {
 				StringBuffer before = new StringBuffer().append("{");
 				StringBuffer after = new StringBuffer().append("{");
