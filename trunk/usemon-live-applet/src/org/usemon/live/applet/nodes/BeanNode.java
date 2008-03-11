@@ -49,4 +49,8 @@ public class BeanNode extends Node {
 		}
 		return DISTANCE_DEFAULT;
 	}
+	
+	public String toString() {
+		return className;
+	}
 }

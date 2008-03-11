@@ -36,4 +36,8 @@ public class HttpNode extends Node {
 	public float getDesiredLengthFromCentrum() {
 		return 600;
 	}
+	
+	public String toString() {
+		return url;
+	}
 }
