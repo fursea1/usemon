@@ -14,8 +14,9 @@ public class BeanNode extends Node {
 		{ "SystemBean", new Integer(200) },
 		{ "ServiceBean", new Integer(300) },
 		{ "Servlet", new Integer(500) },
-		{ "MDB", new Integer(500) },
-		{ "MQ", new Integer(500) },
+		{ "MDB", new Integer(50) },
+		{ "MessageDrivenBean", new Integer(50) },
+		{ "MQ", new Integer(50) },
 	};
 	private static final int DISTANCE_DEFAULT = 400;
 	private String className;

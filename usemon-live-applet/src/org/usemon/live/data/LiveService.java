@@ -5,15 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.jfree.data.time.Minute;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.usemon.live.applet.Node;
 
 public class LiveService extends Thread {
 	private Connection connection;
@@ -37,7 +30,7 @@ public class LiveService extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				int lastMaxId = getCurrentMaxId()-100;
+				int lastMaxId = getCurrentMaxId();//-100;
 				while (true) {
 					System.out.print("Checking for new invocations.. ");
 					int currentMaxId = getCurrentMaxId();

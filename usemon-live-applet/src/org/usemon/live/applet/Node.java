@@ -26,7 +26,10 @@ public abstract class Node {
 		return metaData;
 	}
 
-	public abstract void tick();
+	public void tick() {
+		if(System.currentTimeMillis()>updated+Graph.NODE_TTL) dead = true;
+	}
+
 	public abstract void draw(PApplet g);
 	public abstract float getRadius();
 	public abstract float getDesiredLengthFromCentrum();

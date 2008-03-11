@@ -7,6 +7,7 @@ import org.jfree.chart.JFreeChart;
 import org.usemon.live.applet.edges.InvocationEdge;
 import org.usemon.live.applet.nodes.BeanNode;
 import org.usemon.live.applet.nodes.HttpNode;
+import org.usemon.live.applet.nodes.QueueNode;
 import org.usemon.live.data.FactListener;
 import org.usemon.live.data.FactService;
 import org.usemon.live.data.LiveListener;
@@ -41,8 +42,8 @@ public class CallGraph implements LiveListener, FactListener {
 		if(currentStatNode!=oldStatNode) {
 			oldStatNode = currentStatNode;
 			if(factsOrdered==0) {
-				factService.orderFacts(oldStatNode);
-				factsOrdered=1;
+				//factService.orderFacts(oldStatNode);
+				//factsOrdered=1;
 			}
 		}
 	}
@@ -86,6 +87,8 @@ public class CallGraph implements LiveListener, FactListener {
 	private Node createNode(String str, Map metaData) {
 		if(str.startsWith("http://") || str.startsWith("https://")) {
 			return new HttpNode(metaData, str, str);
+		} else if(str.startsWith("queue://")) {
+			return new QueueNode(metaData, str, str);
 		} else {
 			return new BeanNode(metaData, str, str);
 		}
