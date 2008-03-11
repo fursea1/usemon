@@ -6,6 +6,8 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
+import test.usemon.compliance.ComplianceTestContainer;
+
 public class MessageImpl implements Message {
 
 	@Override
@@ -75,9 +77,12 @@ public class MessageImpl implements Message {
 	}
 
 	@Override
-		public Destination getJMSDestination() throws JMSException {
-		// TODO Auto-generated method stub
-		return null;
+	public Destination getJMSDestination() throws JMSException {
+		return new Destination() {
+			public String toString() {
+				return "queue://"+ComplianceTestContainer.QUEUE_NAME;
+			}
+		};
 	}
 
 	@Override

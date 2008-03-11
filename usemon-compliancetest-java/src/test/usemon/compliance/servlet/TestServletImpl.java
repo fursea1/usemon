@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import test.usemon.compliance.ComplianceTestContainer;
 import test.usemon.compliance.custom.CustomScopeService;
 import test.usemon.compliance.jms.MessageImpl;
 import test.usemon.compliance.jms.QueueImpl;
@@ -20,7 +21,6 @@ public class TestServletImpl extends HttpServlet {
 	private CustomScopeService service;
 	private int counter;
 	private Queue q1;
-	private Queue q2;
 	private QueueSender qs;
 	
 	public void init() throws ServletException {
@@ -28,8 +28,7 @@ public class TestServletImpl extends HttpServlet {
 		counter = 0;
 
 		// QueueSender
-		q1 = new QueueImpl("ComplianceTestQueueName1");
-		q2 = new QueueImpl("ComplianceTestQueueName2");
+		q1 = new QueueImpl(ComplianceTestContainer.QUEUE_NAME);
 		qs = new QueueSenderImpl(q1);
 	}
 	
@@ -37,7 +36,6 @@ public class TestServletImpl extends HttpServlet {
 		try {
 			System.out.println(service.sayHello("Paul René - "+counter++));
 			qs.send(new MessageImpl());
-			qs.send(q2, new MessageImpl());
 		} catch (InterruptedException e) {
 			throw new ServletException(e);
 		} catch (JMSException e) {

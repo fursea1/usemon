@@ -4,6 +4,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Queue;
 
+import test.usemon.compliance.ComplianceTestContainer;
+
 public class QueueSenderImpl implements javax.jms.QueueSender {
 
 	private Queue queue;
@@ -16,22 +18,25 @@ public class QueueSenderImpl implements javax.jms.QueueSender {
 		return queue;
 	}
 
-	public void send(Message arg0) throws JMSException {
+	public void send(Message m) throws JMSException {
+		ComplianceTestContainer.queue.add(m);
 	}
 
-	public void send(Queue arg0, Message arg1) throws JMSException {
+	public void send(Queue arg0, Message m) throws JMSException {
+		ComplianceTestContainer.queue.add(m);
 	}
 
-	public void send(Message arg0, int arg1, int arg2, long arg3) throws JMSException {
+	public void send(Message m, int arg1, int arg2, long arg3) throws JMSException {
+		ComplianceTestContainer.queue.add(m);
 	}
 
-	public void send(Queue arg0, Message arg1, int arg2, int arg3, long arg4) throws JMSException {
+	public void send(Queue arg0, Message m, int arg2, int arg3, long arg4) throws JMSException {
+		ComplianceTestContainer.queue.add(m);
 	}
 
 	@Override
 	public void close() throws JMSException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
