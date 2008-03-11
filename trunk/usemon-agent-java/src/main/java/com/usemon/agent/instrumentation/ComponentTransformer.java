@@ -1,7 +1,5 @@
 package com.usemon.agent.instrumentation;
 
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.usemon.usageinfo.Info;
@@ -120,9 +118,6 @@ public class ComponentTransformer {
 				}
 			}
 		}
-//		DataOutputStream dos = new DataOutputStream(new FileOutputStream("c:\\"+javaClass.getSimpleName()+".class"));
-//		javaClass.toBytecode(dos);
-//		dos.close();
 		return javaClass.toBytecode();
 	}
 	
