@@ -23,7 +23,6 @@ public class CallGraph implements LiveListener, FactListener {
 	private LiveService liveService;
 	private FactService factService;
 	private int factsOrdered;
-	private int factsOrderedProgress;
 	private PImage logo;
 	
 	public CallGraph(PApplet ctx) {
@@ -97,9 +96,8 @@ public class CallGraph implements LiveListener, FactListener {
 		if(chart!=null) {
 			ChartFrame frame = new ChartFrame("Facts for the last 24 hours", chart);
 			frame.pack();
-			frame.setLocationRelativeTo(ctx);
-			frame.setLocationByPlatform(true);
 			frame.setVisible(true);
+			frame.setLocationRelativeTo(ctx);
 		}
 	}
 }

@@ -1,14 +1,14 @@
 #Fat Jar Configuration File
-#Tue Mar 11 08:58:47 CET 2008
+#Tue Mar 11 11:22:42 CET 2008
 onejar.license.required=true
 manifest.classpath=
 manifest.removesigners=true
 onejar.checkbox=false
-jarname=usemon-live-applet_fat.jar
+jarname=C\:\\Documents and Settings\\t535293\\Desktop\\usemon-live-applet.jar
 manifest.mergeall=true
 manifest.mainclass=org.usemon.live.applet.UsemonLiveApplet
 manifest.file=<createnew>
-jarname.isextern=false
+jarname.isextern=true
 onejar.expand=
 excludes=
 includes=
