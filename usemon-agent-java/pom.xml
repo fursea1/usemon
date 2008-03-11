@@ -5,6 +5,7 @@
 		<groupId>usemon</groupId>
 		<artifactId>usemon-pom</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../usemon-pom/pom.xml</relativePath>
 	</parent>
 	<artifactId>usemon-agent-java</artifactId>
 	<name>usemon-agent-java</name>

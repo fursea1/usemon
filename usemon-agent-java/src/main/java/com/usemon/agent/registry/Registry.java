@@ -15,12 +15,11 @@ import com.usemon.agent.Constants;
 import com.usemon.agent.publisher.Publisher;
 
 /**
- * Registers and holds usage observation objects and ships them over to the
- * publisher once approx. every minute.
- * <p>The static methods are invoked by the code injected into the public 
- * methods of the classes instrumented by us.
- * <p>The data is collected in our thread local objects for a minute, after which 
- * they are transferred to the {@link Publisher} queue.
+ * Registers and holds usage observation objects and ships them over to the publisher once approx. every minute.
+ * <p>
+ * The static methods are invoked by the code injected into the public methods of the classes instrumented by us.
+ * <p>
+ * The data is collected in our thread local objects for a minute, after which they are transferred to the {@link Publisher} queue.
  * 
  * @author Paul Rene Jørgensen
  * @author Steinar Overbeck Cook
@@ -29,8 +28,7 @@ import com.usemon.agent.publisher.Publisher;
 public class Registry {
 
 	/**
-	 * Creates {@link Usage} objects when requested to do so. Allows for lazy
-	 * creation Usage objects through the use of a "closure".
+	 * Creates {@link Usage} objects when requested to do so. Allows for lazy creation Usage objects through the use of a "closure".
 	 * 
 	 * @author t547116 (Steinar Overbeck Cook)
 	 */
@@ -53,8 +51,8 @@ public class Registry {
 		return (UsageCollection) localUsageCollection.get();
 	}
 
-	/** Provides the size of the usage map, i.e. the map holding
-	 * our current usage objects.
+	/**
+	 * Provides the size of the usage map, i.e. the map holding our current usage objects.
 	 * 
 	 * @return size of usage map.
 	 */
@@ -68,8 +66,7 @@ public class Registry {
 	}
 
 	/**
-	 * Registers an invocation of a method, which is accumulated on per-method
-	 * basis into a {@link Usage} object.
+	 * Registers an invocation of a method, which is accumulated on per-method basis into a {@link Usage} object.
 	 * 
 	 * @param componentType
 	 * @param packageName
@@ -89,8 +86,7 @@ public class Registry {
 	 * @param exceptionThrownByThisInvocation
 	 *            exception thrown by the method invocation
 	 */
-	public static void invocation(int componentType, String packageName, String simpleClassName, String methodName, String signature, String modifiers,
-			long responseTime, String principal, Throwable exceptionThrownByThisInvocation) {
+	public static void invocation(int componentType, String packageName, String simpleClassName, String methodName, String signature, String modifiers, long responseTime, String principal, Throwable exceptionThrownByThisInvocation) {
 		if (!okToPublish())
 			return;
 		principal = ensurePrincipal(principal); // Sanity check of the principal
@@ -101,6 +97,8 @@ public class Registry {
 			u.addInvokee(invokee);
 		}
 		u.addSample(principal, responseTime, exceptionThrownByThisInvocation);
+//		System.err.println(packageName+"."+simpleClassName+"."+methodName+" "+signature);
+//		System.err.println(u.getInvokees());
 	}
 
 	/**
@@ -110,8 +108,7 @@ public class Registry {
 	 * @param className
 	 *            complete class name with package name etc., i.e. java.net.URL
 	 * @param resource
-	 *            instanceId, which could be the SQL statement, the name of
-	 *            queue, the URL etc.
+	 *            instanceId, which could be the SQL statement, the name of queue, the URL etc.
 	 * @param responseTime
 	 * @param principal
 	 * @param exception
@@ -129,6 +126,7 @@ public class Registry {
 	}
 
 	public static void push(int componentType, String className, String resource) {
+//		System.out.println(componentType+": "+className+" - "+resource);
 		if (!okToPublish())
 			return;
 		Stack s = ensureCallStack();
@@ -184,19 +182,16 @@ public class Registry {
 	}
 
 	/**
-	 * Locates the {@link Usage} associated with the given parameters, which
-	 * represents method invocations.
+	 * Locates the {@link Usage} associated with the given parameters, which represents method invocations.
 	 * 
 	 * @param componentType
 	 * @param packageName
 	 * @param simpleClassName
 	 * @param methodName
 	 * @param signature
-	 * @return reference to an existing Usage object or a newly created Usage
-	 *         object if an existing one could not be found.
+	 * @return reference to an existing Usage object or a newly created Usage object if an existing one could not be found.
 	 */
-	protected static Usage ensureUsage(final int componentType, final String packageName, final String simpleClassName, final String methodName,
-			final String signature) {
+	protected static Usage ensureUsage(final int componentType, final String packageName, final String simpleClassName, final String methodName, final String signature) {
 		ensurePublisherAvailable();
 		// Composes the hash map key
 		String key = MethodInfo.createKey(packageName, simpleClassName, methodName, signature);
@@ -206,8 +201,7 @@ public class Registry {
 		// placed into a convenience method.
 		Usage usage = findOrCreateCurrentUsageObject(key, new UsageCreator() {
 			/**
-			 * Implements the Usage creator method for the enclosing method
-			 * signature
+			 * Implements the Usage creator method for the enclosing method signature
 			 */
 			public Usage createNewUsageObject() {
 				return new Usage(new MethodInfo(componentType, packageName, simpleClassName, methodName, signature));
@@ -218,10 +212,9 @@ public class Registry {
 	}
 
 	/**
-	 * Locates the {@link Usage} object associated with the given parameters
-	 * which represents an object instance. 
-	 * <p>Expired usage objects will be transferred
-	 * to the publisher, after which a new usage object is created and returned.
+	 * Locates the {@link Usage} object associated with the given parameters which represents an object instance.
+	 * <p>
+	 * Expired usage objects will be transferred to the publisher, after which a new usage object is created and returned.
 	 * 
 	 * @param componentType
 	 * @param className
@@ -244,13 +237,9 @@ public class Registry {
 	}
 
 	/**
-	 * Convenience method for finding the Usage object in our thread local map,
-	 * creating it if it does not exist and optionally shipping it off to the
-	 * publisher.
+	 * Convenience method for finding the Usage object in our thread local map, creating it if it does not exist and optionally shipping it off to the publisher.
 	 * <p>
-	 * The {@link UsageCreator} argument allows for lazy creation of the Usage
-	 * object, that is, we do not need to create it if the Usage object for the
-	 * key was found in our thread local map.
+	 * The {@link UsageCreator} argument allows for lazy creation of the Usage object, that is, we do not need to create it if the Usage object for the key was found in our thread local map.
 	 * </p>
 	 * 
 	 * @param key
@@ -279,10 +268,13 @@ public class Registry {
 		return usage;
 	}
 
-	/** Creates new usage object and saves it in our internal storage structure.
+	/**
+	 * Creates new usage object and saves it in our internal storage structure.
 	 * 
-	 * @param key represents the key under which the new usage object should be stored.
-	 * @param usageCreator closure for creating a new usage object.
+	 * @param key
+	 *            represents the key under which the new usage object should be stored.
+	 * @param usageCreator
+	 *            closure for creating a new usage object.
 	 * @return newly created usage object.
 	 */
 	private static Usage createAndSaveNewUsageObject(final UsageCreator usageCreator) {
@@ -293,10 +285,9 @@ public class Registry {
 	}
 
 	/**
-	 * checks to see if the publisher is available and clears the outbound queue
-	 * if not.
+	 * checks to see if the publisher is available and clears the outbound queue if not.
 	 * 
-	 * @return <em>true</em> if publisher is available, clears the queue and returns <em>false</em> otherwise. 
+	 * @return <em>true</em> if publisher is available, clears the queue and returns <em>false</em> otherwise.
 	 */
 	private static boolean isPublisherUnavailableAndUsageCollectionCleared() {
 		if (!okToPublish()) {
@@ -308,20 +299,21 @@ public class Registry {
 	}
 
 	/**
-	 * Sends and removes all usage objects created prior to the supplied one, after which
-	 * the supplied usage object is removed from the out bound queue and sent
-	 * for publishing.
-	 * @param key represents the key into the out bound queue
-	 * @param usage the object to be enqueued.
+	 * Sends and removes all usage objects created prior to the supplied one, after which the supplied usage object is removed from the out bound queue and sent for publishing.
+	 * 
+	 * @param key
+	 *            represents the key into the out bound queue
+	 * @param usage
+	 *            the object to be enqueued.
 	 */
 	private static void removeAndSendExpiredUsageObjects(final Usage usage) {
 		if (isPublisherUnavailableAndUsageCollectionCleared())
 			return;
 		Log.debug("Number of items in Registry queue:" + getUsageCollectionSize());
-		int i=0;
-		for (Iterator iter=getUsageCollection().iterator(usage); iter.hasNext();) {
+		int i = 0;
+		for (Iterator iter = getUsageCollection().iterator(usage); iter.hasNext();) {
 			Usage u = (Usage) iter.next();
-			if(u!=null) {
+			if (u != null) {
 				sendUsageObject(u);
 				i++;
 				iter.remove();
@@ -330,9 +322,11 @@ public class Registry {
 		Log.debug("Transferred " + i + " usage objects to the publisher");
 	}
 
-	/** Enqueues the supplied Usage object to the publisher.
+	/**
+	 * Enqueues the supplied Usage object to the publisher.
 	 * 
-	 * @param usage object to be enqueued
+	 * @param usage
+	 *            object to be enqueued
 	 */
 	private static void sendUsageObject(final Usage usage) {
 		// Publishes the usage object!
@@ -345,8 +339,7 @@ public class Registry {
 	}
 
 	/**
-	 * Ensures that we have an instance of a publisher, which will broadcast our
-	 * observations to the collector or anyone that cares to listen :-)
+	 * Ensures that we have an instance of a publisher, which will broadcast our observations to the collector or anyone that cares to listen :-)
 	 */
 	public static void ensurePublisherAvailable() {
 		// Start the publisher if it does not exist or is not running
