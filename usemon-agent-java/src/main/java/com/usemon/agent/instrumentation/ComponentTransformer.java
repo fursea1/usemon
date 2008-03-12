@@ -79,7 +79,7 @@ public class ComponentTransformer {
 					String queueName = null;
 					if("(Ljavax/jms/Queue;Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
 						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
-						queueName = "\"queue://\"+$1.toString()";
+						queueName = "$1.toString()";
 					} else if("(Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
 						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
 						String queueFieldName = null;
@@ -92,7 +92,7 @@ public class ComponentTransformer {
 							}
 						}
 						if(queueFieldName!=null) {
-							queueName = "\"queue://\"+"+queueFieldName+".toString()";
+							queueName = queueFieldName+".toString()";
 						} else {
 							queueName = "\"queue://unknown.queue\"";
 						}
@@ -131,7 +131,7 @@ public class ComponentTransformer {
 				String topicName = null;
 				if("(Ljavax/jms/Topic;Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
 					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
-					topicName = "\"topic://\"+$1.toString()";
+					topicName = "$1.toString()";
 				} else if("(Ljavax/jms/Topic;)V".equals(method.getSignature()) || "(Ljavax/jms/Topic;IIJ)V".equals(method.getSignature())) {
 					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
 					String topicFieldName = null;
@@ -144,7 +144,7 @@ public class ComponentTransformer {
 						}
 					}
 					if(topicFieldName!=null) {
-						topicName = "\"topic://\"+"+topicFieldName+".toString()";
+						topicName = topicFieldName+".toString()";
 					} else {
 						topicName = "\"topic://unknown.queue\"";
 					}
