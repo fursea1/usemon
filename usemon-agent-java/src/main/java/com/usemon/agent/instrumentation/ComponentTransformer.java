@@ -121,27 +121,59 @@ public class ComponentTransformer {
 		return javaClass.toBytecode();
 	}
 	
-	public static byte[] transformTopicPublisher(CtClass javaClass) throws IOException, CannotCompileException {
-/*		// TODO
-		System.out.println("TOPICPUBLISHER -- CLASS: "+javaClass.getName());
+	public static byte[] transformTopicPublisher(CtClass javaClass) throws IOException, CannotCompileException, NotFoundException {
 		CtMethod[] methods = javaClass.getMethods();
 		for(int n=0;n<methods.length;n++) {
 			CtMethod method = methods[n];
 			MethodInfo methodInfo = method.getMethodInfo();
-			// Skip all private, native or abstract methods
+			// Skip all native and abstract methods
 			if(methodInfo.isMethod() && !Modifier.isNative(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers())) {
-
-				System.out.println("TOPICPUBLISHER -- CLASS: "+javaClass.getName()+" METHOD: "+method.getName()+" SIGNATURE: "+method.getSignature());
-				if("publish".equals(method.getName())) {
-
+				String topicName = null;
+				if("(Ljavax/jms/Topic;Ljavax/jms/Message;)V".equals(method.getSignature()) || "(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V".equals(method.getSignature())) {
+					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+					topicName = "\"topic://\"+$1.toString()";
+				} else if("(Ljavax/jms/Topic;)V".equals(method.getSignature()) || "(Ljavax/jms/Topic;IIJ)V".equals(method.getSignature())) {
+					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+					String topicFieldName = null;
+					CtField[] fields = javaClass.getDeclaredFields();
+					for(int t=0;t<fields.length;t++) {
+						CtField field = fields[t];
+						if ("javax.jms.Topic".equals(field.getType().getName())) {
+							topicFieldName = field.getName();
+							break;
+						}
+					}
+					if(topicFieldName!=null) {
+						topicName = "\"topic://\"+"+topicFieldName+".toString()";
+					} else {
+						topicName = "\"topic://unknown.queue\"";
+					}
+				}
+				
+				if(topicName!=null) {
+					StringBuffer before = new StringBuffer().append("{");
+					StringBuffer after = new StringBuffer().append("{");
+					before.append(Constants.CALLBACK_PUSH+"("+Info.COMPONENT_TOPICPUBLISHER+", getClass().getName(), "+topicName+");");
+					before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+					after.append(Constants.CALLBACK_INVOCATION);
+					after.append("(");
+					after.append(Info.COMPONENT_TOPICPUBLISHER+", ");
+					after.append("getClass().getName() ,");
+					after.append(topicName+", ");
+					after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+					after.append("null, ");
+					after.append("null);");
+					after.append(Constants.CALLBACK_POP+"();");
+					method.insertBefore(before.append("}").toString());
+					method.insertAfter(after.append("}").toString());
 				}
 			}
-		}*/
+		}
 		return javaClass.toBytecode();
 	}
 
 	public static byte[] transformSQLStatement(CtClass javaClass) throws CannotCompileException, IOException {
-		String databasePush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_DATASOURCE+", getConnection().getClass().getName(), \"db://\"+getConnection().getCatalog());";		
+//		String databasePush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_DATASOURCE+", getConnection().getClass().getName(), \"db://\"+getConnection().getURL());";		
 		String statementPush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_SQLSTATEMENT+", getClass().getName(), \"sql://\"+"+Constants.HELPER_SQLDEARG+"($1));";
 		String pop = Constants.CALLBACK_POP+"();";
 		CtMethod[] methods = javaClass.getMethods();
@@ -155,19 +187,20 @@ public class ComponentTransformer {
 
 				if("execute".equals(method.getName()) || "executeQuery".equals(method.getName()) || "executeUpdate".equals(method.getName())) {
 					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
-					before.append(databasePush).append(statementPush);
+//					before.append(databasePush).append(statementPush);
+					before.append(statementPush);
 					before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
 					after.append(Constants.CALLBACK_INVOCATION);
 					after.append("(");
 					after.append(Info.COMPONENT_SQLSTATEMENT+", ");
 					after.append("getClass().getName() ,");
-					after.append("\"db://\"+getConnection().getCatalog()+\"/sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
+					after.append("\"sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
 					after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
-	//				after.append("getConnection().getMetaData().getUserName(), ");
+//					after.append("getConnection().getMetaData().getUserName(), ");
 					after.append("null, ");
-					after.append("null");
-					after.append(");");
-					after.append(pop).append(pop);
+					after.append("null);");
+//					after.append(pop).append(pop);
+					after.append(pop);
 				} else if("addBatch".equals(method.getName())) {
 					// TODO
 				} else if("executeBatch".equals(method.getName())) {
@@ -205,7 +238,7 @@ public class ComponentTransformer {
 				break;
 			}
 		}
-		
+
 		CtMethod[] methods = javaClass.getDeclaredMethods();
 		if(methods!=null) {
 			for(int n=0;n<methods.length;n++) {
@@ -218,7 +251,7 @@ public class ComponentTransformer {
 						StringBuffer before = new StringBuffer().append("{");
 						StringBuffer after = new StringBuffer().append("{");
 						StringBuffer handler = new StringBuffer().append("{"); // Exception handler
-						
+
 						// Create a field for the invoke time and set it to currentTimeMillis
 						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
 						before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
@@ -246,7 +279,7 @@ public class ComponentTransformer {
 								extraPopNeeded=true;
 							}							
 						}
-						
+
 						// Instrumentation common for most beans
 						before.append(Constants.CALLBACK_PUSH);
 						before.append("(");
@@ -256,7 +289,7 @@ public class ComponentTransformer {
 						before.append("\""+method.getName()+"\", ");
 						before.append("\""+method.getSignature()+"\"");
 						before.append(");");
-						
+
 						after.append(Constants.CALLBACK_INVOCATION);
 						after.append("(");
 						after.append(type+", ");

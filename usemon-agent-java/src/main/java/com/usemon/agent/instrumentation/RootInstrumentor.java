@@ -120,7 +120,7 @@ public class RootInstrumentor {
 			} else if(Config.isSQLStatementInScope() && JavassistUtils.implementsInterface(javaClass, "java.sql.Statement")) {
 				return Info.COMPONENT_SQLSTATEMENT;
 			}
-		} else { // Ignore excluded classes for QueueSender, TopicPublisher and DataSource because these often are implemented by the container
+		} else { // Ignore excluded classes for QueueSender, TopicPublisher and DataSource because these could be implemented by the container
 			if(Config.isMessageProducerInScope() && JavassistUtils.implementsInterface(javaClass, "javax.jms.QueueSender")) {
 				return Info.COMPONENT_QUEUESENDER;
 			} else if(Config.isMessageProducerInScope() && JavassistUtils.implementsInterface(javaClass, "javax.jms.TopicPublisher")) {
