@@ -17,7 +17,7 @@ public class UsemonLive {
 
 	private UsemonLive() throws ClassNotFoundException, SQLException, GraphException {
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/usemon?autoReconnect=true",
+		connection = DriverManager.getConnection("jdbc:mysql://metromon2.corp.telenor.no:3306/usemon?autoReconnect=true",
 				"usemonmonitor", "usemonmonitor");
 		
 		panel = new DependencyPanel();
@@ -84,15 +84,17 @@ public class UsemonLive {
 	}
 
 	private void process(ResultSet rs) throws SQLException, GraphException {
-		String source = rs.getString("sourceClass");
+		String source = rs.getString("sourceInstance");
 		if(source==null || "unknown".equals(source)) {
-			source = rs.getString("sourceInstance");
+			source = rs.getString("sourceClass");
 		}
-		String target = rs.getString("targetClass");
+		String target = rs.getString("targetInstance");
 		if(target==null || "unknown".equals(target)) {
-			target = rs.getString("targetInstance");
+			target = rs.getString("targetClass");
 		}
-		panel.addInvocation(source, target, rs.getInt("invocations"));
+		if(!source.startsWith("db://") && !target.startsWith("db://")) {
+			panel.addInvocation(source, target, rs.getInt("invocations"));
+		}
 	}
 
 

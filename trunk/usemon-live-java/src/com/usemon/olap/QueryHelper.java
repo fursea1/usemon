@@ -47,6 +47,7 @@ public class QueryHelper {
 				}
 				q.append("} ");
 			} else {
+				//hoursBack = unitsBackInTime/60;
 				
 			}
 			q.append(") ");
@@ -61,5 +62,4 @@ public class QueryHelper {
 
 		return q.toString();
 	}
-
 }
