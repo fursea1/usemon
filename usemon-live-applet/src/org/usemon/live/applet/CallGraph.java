@@ -42,8 +42,8 @@ public class CallGraph implements LiveListener, FactListener {
 		if(currentStatNode!=oldStatNode) {
 			oldStatNode = currentStatNode;
 			if(factsOrdered==0) {
-				//factService.orderFacts(oldStatNode);
-				//factsOrdered=1;
+				factService.orderFacts(oldStatNode);
+				factsOrdered=1;
 			}
 		}
 	}
