@@ -37,11 +37,9 @@ public class ComplianceTestContainer extends Thread {
 		}			
 	}
 	
-
 	private void setMessageDrivenBean(MessageListener mdb) {
 		this.mdb = mdb;
 	}
-
 
 	public void run() {
 		while(true) {
