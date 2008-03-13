@@ -16,7 +16,7 @@ public class LiveService extends Thread {
 		this.liveListener = liveListener;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://metromon2.corp.telenor.no:3306/usemon?autoReconnect=true", "usemonmonitor", "usemonmonitor");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/usemon?autoReconnect=true", "usemonmonitor", "usemonmonitor");
 			setName("LiveService Thread");
 			setDaemon(true);
 			start();
@@ -30,7 +30,7 @@ public class LiveService extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				int lastMaxId = getCurrentMaxId();//-100;
+				int lastMaxId = getCurrentMaxId()-100;
 				while (true) {
 					System.out.print("Checking for new invocations.. ");
 					int currentMaxId = getCurrentMaxId();
