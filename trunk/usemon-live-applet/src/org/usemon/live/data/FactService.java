@@ -1,5 +1,7 @@
 package org.usemon.live.data;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,27 +9,52 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.usemon.live.applet.Node;
+import org.usemon.live.applet.nodes.BeanNode;
 
 public class FactService extends Thread {
 	private Connection connection;
 	private FactListener factListener;
 	private LinkedList queue;
 	
+	public static void main(String[] args) throws InterruptedException {
+		FactService fs = new FactService(new FactListener() {
+			public void factsArrived(Node node, JFreeChart chart) {
+				try {
+					ChartUtilities.saveChartAsPNG(new File("c:\\chart.png"), chart, 640, 480);
+					System.out.println("Done");
+					System.exit(0);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		Map md = new HashMap();
+		md.put("packageId", new Integer(12));
+		md.put("classId", new Integer(13));
+		Node n = new BeanNode(md, "", "");
+		fs.orderFacts(n);
+		Thread.sleep(1000*60*10);
+	}
 	
 	public FactService(FactListener factListener) {
 		this.factListener = factListener;
 		this.queue = new LinkedList();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://metromon2.corp.telenor.no:3306/usemon?autoReconnect=true", "usemonmonitor", "usemonmonitor");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/usemon?autoReconnect=true", "usemonmonitor", "usemonmonitor");
 			setName("FactService Thread");
 			setDaemon(true);
 			start();
@@ -73,7 +100,8 @@ public class FactService extends Thread {
 		sql.append("d_date.year_v = "+now.get(Calendar.YEAR)+" AND ");
 		sql.append("d_date.month_v = "+now.get(Calendar.MONTH)+" AND ");
 		sql.append("d_date.day_v = "+now.get(Calendar.DATE)+" AND ");
-//		sql.append("d_time.hh >= 12 AND ");
+		sql.append("d_time.hh <= "+now.get(Calendar.HOUR)+" AND ");
+		sql.append("d_time.mm <= "+now.get(Calendar.MINUTE)+" AND ");
 		sql.append("method_measurement_fact.class_id = "+classId+" AND ");
 		sql.append("method_measurement_fact.package_id = "+packageId+" ");
 		sql.append("GROUP BY 1,2,3,4,5,6,7 LIMIT 1440;");	
@@ -121,7 +149,15 @@ public class FactService extends Thread {
 	}
 
 	private JFreeChart createChart(String title, TimeSeriesCollection tsc) {
-		return ChartFactory.createTimeSeriesChart(title, null, null, tsc, true, true, false);		
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(title, null, null, tsc, true, true, false);
+
+//		XYBarRenderer renderer = new XYBarRenderer();
+
+		XYPlot plot = chart.getXYPlot();
+		System.out.println(plot.getClass().getName());
+//		plot.setRenderer(renderer);
+		
+		return chart;
 	}
 
 	private int i(String s) {

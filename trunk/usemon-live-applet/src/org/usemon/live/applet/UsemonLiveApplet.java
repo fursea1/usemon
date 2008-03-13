@@ -11,8 +11,8 @@ public class UsemonLiveApplet extends PApplet {
 
 	public void setup() {
 		if (frame != null) frame.setTitle("U s e m o n | L i v e");
-		size(1024, 768, JAVA2D);
-//		size(screen.width, screen.height, JAVA2D);
+//		size(1024, 768, JAVA2D);
+		size(screen.width, screen.height, JAVA2D);
 		graph = new CallGraph(this);
 		frameRate(30);
 		smooth();
