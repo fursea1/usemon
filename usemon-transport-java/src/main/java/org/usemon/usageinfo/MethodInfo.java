@@ -55,7 +55,7 @@ public class MethodInfo extends Info{
 	}
 	
 	public static String createKey(String packageName, String simpleClassName, String methodName, String signature) {
-		return new StringBuffer(packageName).append(simpleClassName).append(methodName).append(signature).toString();
+		return new StringBuffer(packageName).append(".").append(simpleClassName).append(".").append(methodName).append(signature).toString();
 	}
 
 	public void setSimpleClassName(String simpleClassName) {

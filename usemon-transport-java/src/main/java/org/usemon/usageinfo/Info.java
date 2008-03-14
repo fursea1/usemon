@@ -22,7 +22,8 @@ public abstract class Info implements Serializable{
     public static final int COMPONENT_QUEUESENDER = 0x8;
     public static final int COMPONENT_TOPICPUBLISHER = 0x9;
     public static final int COMPONENT_SQLSTATEMENT = 0xA;
-    public static final String[] TYPES = new String[] { "Unknown", "SessionBean", "EntityBean", "MessageDrivenBean", "Servlet", "Singleton", "DataSource", "Custom", "QueueSender", "TopicPublisher", "SQLStatement" };
+	public static final int COMPONENT_SQLCONNECTION = 0xB;
+    public static final String[] TYPES = new String[] { "Unknown", "SessionBean", "EntityBean", "MessageDrivenBean", "Servlet", "Singleton", "DataSource", "Custom", "QueueSender", "TopicPublisher", "SQLStatement", "SQLConnection" };
 	
 	protected int componentType;
 	protected int count;
