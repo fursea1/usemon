@@ -3,6 +3,7 @@
 		<artifactId>usemon-pom</artifactId>
 		<groupId>usemon</groupId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../usemon-pom/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>usemon-agent-jdk5-java</artifactId>
@@ -43,7 +44,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>3.8.1</version>
 		</dependency>
 	</dependencies>
 </project>
