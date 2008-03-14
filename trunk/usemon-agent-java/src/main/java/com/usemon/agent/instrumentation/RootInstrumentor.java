@@ -94,6 +94,8 @@ public class RootInstrumentor {
 				return ComponentTransformer.transformTopicPublisher(javaClass);				
 			case Info.COMPONENT_SQLSTATEMENT:
 				return ComponentTransformer.transformSQLStatement(javaClass);				
+			case Info.COMPONENT_SQLCONNECTION:
+				return ComponentTransformer.transformSQLConnection(javaClass);				
 			default:
 				return null;
 			}
@@ -129,6 +131,8 @@ public class RootInstrumentor {
 				return Info.COMPONENT_TOPICPUBLISHER;
 			} else if(Config.isSQLStatementInScope() && JavassistUtils.implementsInterface(javaClass, "java.sql.Statement")) {
 				return Info.COMPONENT_SQLSTATEMENT;
+			} else if(Config.isSQLStatementInScope() && JavassistUtils.implementsInterface(javaClass, "java.sql.Connection")) {
+				return Info.COMPONENT_SQLCONNECTION;
 			}
 		}
 		return Info.COMPONENT_UNKNOWN;

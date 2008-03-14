@@ -171,6 +171,46 @@ public class ComponentTransformer {
 		}
 		return javaClass.toBytecode();
 	}
+	
+	public static byte[] transformSQLConnection(CtClass javaClass) throws IOException, CannotCompileException, NotFoundException {
+		String statementPush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_SQLSTATEMENT+", getClass().getName(), \"sql://\"+"+Constants.HELPER_SQLDEARG+"($1));";
+		String pop = Constants.CALLBACK_POP+"();";
+		CtMethod[] methods = javaClass.getMethods();
+		for(int n=0;n<methods.length;n++) {
+			CtMethod method = methods[n];
+			MethodInfo methodInfo = method.getMethodInfo();
+			if(methodInfo.isMethod() && !Modifier.isNative(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers())) {
+				StringBuffer before = new StringBuffer().append("{");
+				StringBuffer after = new StringBuffer().append("{");
+				
+				if("prepareCall".equals(method.getName()) || "prepareStatement".equals(method.getName())) {
+					CtClass[] paramTypes = method.getParameterTypes();
+					if(paramTypes.length>0) {
+//						System.out.println("== : "+paramTypes[0].getName());
+						if("java.lang.String".equals(paramTypes[0].getName())) {
+							method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+							//before.append("java.lang.System.out.println(\"sql.prepare://\"+$1);");
+							before.append(statementPush);
+							before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+							after.append(Constants.CALLBACK_INVOCATION);
+							after.append("(");
+							after.append(Info.COMPONENT_SQLSTATEMENT+", ");
+							after.append("getClass().getName() ,");
+							after.append("\"sql.prepare://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
+							after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+							after.append("null, ");
+							after.append("null);");
+							after.append(pop);
+						}
+					}
+				}
+				
+				method.insertBefore(before.append("}").toString());
+				method.insertAfter(after.append("}").toString());
+			}
+		}
+		return javaClass.toBytecode();
+	}
 
 	public static byte[] transformSQLStatement(CtClass javaClass) throws CannotCompileException, IOException, NotFoundException {
 //		String databasePush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_DATASOURCE+", getConnection().getClass().getName(), \"db://\"+getConnection().getURL());";		
@@ -181,30 +221,55 @@ public class ComponentTransformer {
 			CtMethod method = methods[n];
 			MethodInfo methodInfo = method.getMethodInfo();
 			// Skip all native or abstract methods
+//			System.out.println(javaClass.getName());
+//			System.out.println(method.getName());
 			if(methodInfo.isMethod() && !Modifier.isNative(method.getModifiers()) && !Modifier.isAbstract(method.getModifiers())) {
 				StringBuffer before = new StringBuffer().append("{");
 				StringBuffer after = new StringBuffer().append("{");
 
 				if("execute".equals(method.getName()) || "executeQuery".equals(method.getName()) || "executeUpdate".equals(method.getName())) {
-					if(method.getParameterTypes().length>0) {
-						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
-	//					before.append(databasePush).append(statementPush);
-						before.append(statementPush);
-						before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
-						after.append(Constants.CALLBACK_INVOCATION);
-						after.append("(");
-						after.append(Info.COMPONENT_SQLSTATEMENT+", ");
-						after.append("getClass().getName() ,");
-						after.append("\"sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
-						after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
-	//					after.append("getConnection().getMetaData().getUserName(), ");
-						after.append("null, ");
-						after.append("null);");
-	//					after.append(pop).append(pop);
-						after.append(pop);
+					CtClass[] paramTypes = method.getParameterTypes();
+					if(paramTypes.length>0) {
+//						System.out.println("-- : "+paramTypes[0].getName());
+						if("java.lang.String".equals(paramTypes[0].getName())) {
+							method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+		//					before.append(databasePush).append(statementPush);
+//							before.append("java.lang.System.out.println(\"sql://\"+$1);");
+							before.append(statementPush);
+							before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+							after.append(Constants.CALLBACK_INVOCATION);
+							after.append("(");
+							after.append(Info.COMPONENT_SQLSTATEMENT+", ");
+							after.append("getClass().getName() ,");
+							after.append("\"sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
+							after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+		//					after.append("getConnection().getMetaData().getUserName(), ");
+							after.append("null, ");
+							after.append("null);");
+		//					after.append(pop).append(pop);
+							after.append(pop);
+						}
 					}
 				} else if("addBatch".equals(method.getName())) {
-					// TODO
+					CtClass[] paramTypes = method.getParameterTypes();
+					if(paramTypes.length>0) {
+//						System.out.println("== : "+paramTypes[0].getName());
+						if("java.lang.String".equals(paramTypes[0].getName())) {
+							method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+//							before.append("java.lang.System.out.println(\"sql.batch://\"+$1);");
+							before.append(statementPush);
+							before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+							after.append(Constants.CALLBACK_INVOCATION);
+							after.append("(");
+							after.append(Info.COMPONENT_SQLSTATEMENT+", ");
+							after.append("getClass().getName() ,");
+							after.append("\"sql.batch://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
+							after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+							after.append("null, ");
+							after.append("null);");
+							after.append(pop);
+						}
+					}
 				} else if("executeBatch".equals(method.getName())) {
 					// TODO
 				}
