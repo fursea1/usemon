@@ -17,6 +17,7 @@ import com.usemon.lib.javassist.ClassPool;
 import com.usemon.lib.javassist.CtClass;
 import com.usemon.lib.javassist.LoaderClassPath;
 import com.usemon.lib.javassist.NotFoundException;
+import com.usemon.lib.javassist.bytecode.ClassFile;
 /**
  * Instruments classes at runtime. This class is instantiated by our custom class loader or the Java agent framework for JDK > 5.0
  * 
@@ -71,7 +72,8 @@ public class RootInstrumentor {
 
 	private static byte[] findTypeAndTransform(CtClass javaClass) throws CannotCompileException, IOException, NotFoundException {
 		int componentType = findComponentType(javaClass);
-		if(componentType!=Info.COMPONENT_UNKNOWN && !javaClass.isInterface()) {
+		ClassFile cf = javaClass.getClassFile();
+		if(componentType!=Info.COMPONENT_UNKNOWN && !cf.isInterface() && !cf.isAbstract()) {
 			Log.info(javaClass.getName()+" is of type "+Info.TYPES[componentType]+" and will be instrumented");
 			switch(componentType) {
 			case Info.COMPONENT_SESSIONBEAN:
