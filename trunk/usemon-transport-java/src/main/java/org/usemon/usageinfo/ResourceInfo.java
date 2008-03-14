@@ -1,6 +1,6 @@
 package org.usemon.usageinfo;
 
-public class ResourceInfo extends Info{
+public class ResourceInfo extends Info {
 	private static final long serialVersionUID = -6463534766557064504L+1L; // Inced version because className field was added (PRJ)
 
 	private String resourceUri;
