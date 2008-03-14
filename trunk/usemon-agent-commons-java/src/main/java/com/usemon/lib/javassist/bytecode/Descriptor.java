@@ -376,9 +376,10 @@ public class Descriptor {
      * @param desc descriptor
      * @param cp   the class pool used for obtaining
      *             a <code>CtClass</code> object.
+     * @throws NotFoundException 
      */
-    public static CtClass[] getParameterTypes(String desc, ClassPool cp)
-        throws NotFoundException
+    public static CtClass[] getParameterTypes(String desc, ClassPool cp) throws NotFoundException
+
     {
         if (desc.charAt(0) != '(')
             return null;
