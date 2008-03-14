@@ -172,7 +172,7 @@ public class ComponentTransformer {
 		return javaClass.toBytecode();
 	}
 
-	public static byte[] transformSQLStatement(CtClass javaClass) throws CannotCompileException, IOException {
+	public static byte[] transformSQLStatement(CtClass javaClass) throws CannotCompileException, IOException, NotFoundException {
 //		String databasePush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_DATASOURCE+", getConnection().getClass().getName(), \"db://\"+getConnection().getURL());";		
 		String statementPush = Constants.CALLBACK_PUSH+"("+Info.COMPONENT_SQLSTATEMENT+", getClass().getName(), \"sql://\"+"+Constants.HELPER_SQLDEARG+"($1));";
 		String pop = Constants.CALLBACK_POP+"();";
@@ -186,21 +186,23 @@ public class ComponentTransformer {
 				StringBuffer after = new StringBuffer().append("{");
 
 				if("execute".equals(method.getName()) || "executeQuery".equals(method.getName()) || "executeUpdate".equals(method.getName())) {
-					method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
-//					before.append(databasePush).append(statementPush);
-					before.append(statementPush);
-					before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
-					after.append(Constants.CALLBACK_INVOCATION);
-					after.append("(");
-					after.append(Info.COMPONENT_SQLSTATEMENT+", ");
-					after.append("getClass().getName() ,");
-					after.append("\"sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
-					after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
-//					after.append("getConnection().getMetaData().getUserName(), ");
-					after.append("null, ");
-					after.append("null);");
-//					after.append(pop).append(pop);
-					after.append(pop);
+					if(method.getParameterTypes().length>0) {
+						method.addLocalVariable(Constants.FIELD_INVOKE_TIME, CtClass.longType );
+	//					before.append(databasePush).append(statementPush);
+						before.append(statementPush);
+						before.append(Constants.FIELD_INVOKE_TIME+"=java.lang.System.currentTimeMillis();");
+						after.append(Constants.CALLBACK_INVOCATION);
+						after.append("(");
+						after.append(Info.COMPONENT_SQLSTATEMENT+", ");
+						after.append("getClass().getName() ,");
+						after.append("\"sql://\"+"+Constants.HELPER_SQLDEARG+"($1), ");
+						after.append("(java.lang.System.currentTimeMillis()-"+Constants.FIELD_INVOKE_TIME+"), ");
+	//					after.append("getConnection().getMetaData().getUserName(), ");
+						after.append("null, ");
+						after.append("null);");
+	//					after.append(pop).append(pop);
+						after.append(pop);
+					}
 				} else if("addBatch".equals(method.getName())) {
 					// TODO
 				} else if("executeBatch".equals(method.getName())) {
