@@ -25,6 +25,7 @@ The <VERSION> part of the filename will vary depending on the version of Usemon 
   * $JAVA5_HOME - Java >= 5.x JRE or JDK home directory, eg. /usr/lib/jdk5/jre
   * $USEMON_HOME - Usemon home directory (where the files were unpacked), eg. /opt/usemon
   * (Optionally) $WAS_HOME - WebSphere home directory, eg. /opt/WebSphere/AppServer
+  * (Optionally) $RESIN_HOME - Resin home directory, eg. /opt/resin-3.1.6
 
 === Do the preinstrumentation (Only Java <=4.2) ===
   * cd $USEMON_HOME
@@ -42,7 +43,7 @@ grant codeBase "file:${was.install.root}/usemon/-" {
 The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
 
 === Add the agent definition to the app server java process ===
-==== Example: WebSphere 5.1 (Java <=1.4) ====
+==== Example 1: WebSphere 5.1 (Java <=1.4) ====
   * In the WAS admin console to the following steps for each server to be instrumented
   * Navigate to Application Servers > SERVERNAME > Process Definition > Java Virtual Machine
   * Add system properties for the following keys (example values after the dash)
@@ -52,3 +53,14 @@ The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
   * Prepend "$USEMON_HOME/usemon-agent-java-<VERSION>-jar-with-dependencies.jar: $USEMON_HOME/usemon-bootstrap.jar" in the Boot Classpath (or in Generic JVM arguments defined by -Xbootclasspath/p)
   * Save and sync the nodes and restart the server
   * When the server starts verify that the file usemon.log is either written to $USEMON_HOMR/logs or $WAS_HOME/logs
+
+==== Example 2: Resin 3.1.6 (Java 6) ====
+  * In the $RESIN_HOME/conf/resin.conf file add
+  * - "<jvm-arg>-javaagent:$USEMON_HOME/usemon-agentjava-<VERSION>-jar-with-dependencies.jar</jvm-arg>" to the JVM arguments section
+  * - '<system-property usemon.system.id="adressa usemon.cluster.id="test"  usemon.server.id="adrtest"/>' to the System property section
+  * - Verify that the usemon.log file is written to $USEMON_HOME/logs when the server starts
+
+
+
+
+
