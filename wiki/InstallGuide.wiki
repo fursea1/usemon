@@ -3,7 +3,7 @@
 = Usemon Install Guide=
 
 == Prerequisites ==
-  * The collector need a JRE version >= 5.x
+  * The collector needs a JRE version >= 5.x
   * TCP connectivity to the MySQL database on por 3306 from the machine running the collector
   * UDP Multicast connectivity from each server running the agent to the server running the collector on 224.82.199.166:16200
   * Latest version: usemon-distro-1.0-bin.tar.gz
