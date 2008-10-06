@@ -34,10 +34,10 @@ The <VERSION> part of the filename will vary depending on the version of Usemon 
 === If you are running your app server with Java security enabled ===
 ==== Example: Add WAS security permissions ====
 Add the following in $WAS_HOME/properties/server.policy
-{{{grant codeBase "file:${was.install.root}/usemon/-" {
+{{{
+grant codeBase "file:${was.install.root}/usemon/-" {
   permission java.security.AllPermission;
-};}}}
+};
+}}}
 The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
-
-
 
