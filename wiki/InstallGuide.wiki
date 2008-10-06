@@ -60,7 +60,7 @@ The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
   * - '<system-property usemon.system.id="adressa usemon.cluster.id="test"  usemon.server.id="adrtest"/>' to the System property section
   * - Verify that the usemon.log file is written to $USEMON_HOME/logs when the server starts
 
-=== Example startup script for the collector ===
+=== Example startup script (collector.sh) for the collector ===
 {{{
 #!/bin/sh
 export JAVA_HOME=/usr/java/jdk1.5.0_11/jre
@@ -85,4 +85,9 @@ exec /usr/java/jdk1.5.0_11/jre/bin/java -Xmx512m -Djdbc.url=jdbc:mysql://<<<usem
 }}}
 
 
+==== Modifying the internal cache of the collector ====
+Specifying -Dusemon.cache.ehcache.configfile=classpath indicates that the configuration of the internal cache should be loaded from the classpath, this is a reasonable default.
 
+If you wish to change this, extract the file ehcache.xml from usemon-collector***.jar and modify it to your liking.
+
+The status of the internal cache will be reported every 5 minutes unless you specify otherwise with the property usemon.cahce.report.interval, which may be added to the command line of the collector.sh script.
