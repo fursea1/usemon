@@ -46,9 +46,9 @@ The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
   * In the WAS admin console to the following steps for each server to be instrumented
   * Navigate to Application Servers > SERVERNAME > Process Definition > Java Virtual Machine
   * Add system properties for the following keys (example values after the dash)
-  *  * usemon.system.id - eg. mySystem
-  *  * usemon.cluster.id - eg. myCluster
-  *  * usemon.server.id - eg. myServer
+  * - usemon.system.id - eg. mySystem
+  * - usemon.cluster.id - eg. myCluster
+  * - usemon.server.id - eg. myServer
   * Prepend "$USEMON_HOME/usemon-agent-java-<VERSION>-jar-with-dependencies.jar: $USEMON_HOME/usemon-bootstrap.jar" in the Boot Classpath (or in Generic JVM arguments defined by -Xbootclasspath/p)
   * Save and sync the nodes and restart the server
   * When the server starts verify that the file usemon.log is either written to $USEMON_HOMR/logs or $WAS_HOME/logs
