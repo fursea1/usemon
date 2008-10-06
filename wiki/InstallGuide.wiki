@@ -27,8 +27,10 @@ The <VERSION> part of the filename will vary depending on the version of Usemon 
   * (Optionally) $WAS_HOME - WebSphere home directory, eg. /opt/WebSphere/AppServer
   * (Optionally) $RESIN_HOME - Resin home directory, eg. /opt/resin-3.1.6
 
-=== Install database schema ===
-  * Execute the usemon-install.sql using your favorite MySQL database tool
+=== Create the database schema ===
+  * There are two scripts located in usemon-collector-java-<VERSION>-jar-with-dependencies.jar, which you need to execute with your favourite mysql tool:
+    1 sql/s00-create-db.sql
+    1 sql/s01-create-db.sql
 
 === Do the preinstrumentation (Only Java <=4.2) ===
   * cd $USEMON_HOME
