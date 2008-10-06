@@ -60,7 +60,29 @@ The snippet assume $USEMON_HOME to be $WAS_HOME/usemon
   * - '<system-property usemon.system.id="adressa usemon.cluster.id="test"  usemon.server.id="adrtest"/>' to the System property section
   * - Verify that the usemon.log file is written to $USEMON_HOME/logs when the server starts
 
+=== Example startup script for the collector ===
+{{{
+#!/bin/sh
+export JAVA_HOME=/usr/java/jdk1.5.0_11/jre
 
+export PIDFILE=/tmp/collector.pid
+
+EXEC_DIR=`dirname $0`
+
+if [ -r $PIDFILE ]
+then
+        echo "Collector seems to be running"
+        echo "Please remove $PIDFILE to force restart"
+        exit 4
+fi
+
+# Saves the PID into the temporary directory
+echo $$ >$PIDFILE
+exec /usr/java/jdk1.5.0_11/jre/bin/java -Xmx512m -Djdbc.url=jdbc:mysql://<<<usemon.database.host>>>/usemon \
+        -Dorg.usemon.logback.configfile=$USEMON_HOME/logback.xml \
+        -Dusemon.cache.ehcache.configfile=classpath \
+        -jar $EXEC_DIR/usemon-collector.jar
+}}}
 
 
 
