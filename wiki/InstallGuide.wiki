@@ -89,6 +89,7 @@ exec /usr/java/jdk1.5.0_11/jre/bin/java -Xmx512m -Djdbc.url=jdbc:mysql://<<<usem
         -jar $EXEC_DIR/usemon-collector.jar
 }}}
 
+There is also a sample provided together with the collector. Unpack `collector.sh` and have a look.
 
 ==== Modifying the internal cache of the collector ====
 Specifying -Dusemon.cache.ehcache.configfile=classpath indicates that the configuration of the internal cache should be loaded from the classpath, this is a reasonable default.
